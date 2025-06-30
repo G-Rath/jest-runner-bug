@@ -1,0 +1,9 @@
+{
+  "name": "jest-runner-bug",
+  "version": "1.0.0",
+  "main": "runner.js",
+  "license": "MIT",
+  "dependencies": {
+    "jest": "^30.0.3"
+  }
+}
