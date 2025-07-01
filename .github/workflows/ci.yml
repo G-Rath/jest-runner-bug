@@ -9,6 +9,7 @@ jobs:
         package-manager: [npm, yarn]
         jest-version: [29, 30]
         use-resolve: ['true', 'false']
+        use-npx: ['true', 'false']
         path: ['.', 'foo', 'foo/bar', 'foo/bar/dip']
     runs-on: ubuntu-latest
     steps:
@@ -16,5 +17,13 @@ jobs:
       - uses: actions/setup-node@v4
       - run: ${{ matrix.package-manager }} add jest@${{ matrix.jest-version }}
       - run: cd ${{ matrix.path }} && npx jest
+        if: ${{ matrix.use-npx == 'true' }}
+        env:
+          USE_RESOLVE: ${{ matrix.use-resolve }}
+      - run: |
+          path_to_node_modules="$PWD/node_modules"
+          cd ${{ matrix.path }}
+          PATH="$PATH:$path_to_node_modules/.bin" jest
+        if: ${{ matrix.use-npx != 'true' }}
         env:
           USE_RESOLVE: ${{ matrix.use-resolve }}
